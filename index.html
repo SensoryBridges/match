@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)file:///C:/Users/qxb843/Downloads/Mocs_Career_Match_Student_Portal.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mocs Career Match — Student Profile Builder</title>
+<link href="./index_files/css2" rel="stylesheet">
+<style>
+:root {
+  --navy: #1B2A4A;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --teal-50: #f0fdfa;
+  --gold: #B8860B;
+  --gold-light: #fef3c7;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --red: #dc2626;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --muted: #64748b;
+  --radius: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* HEADER */
+.header { background: var(--navy); padding: 20px 0; }
+.header-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: 'Fraunces', serif; font-size: 20px; color: white; font-weight: 700; }
+.logo span { color: var(--teal); }
+.header-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); font-size: 11px; padding: 4px 12px; border-radius: 20px; }
+
+/* PROGRESS */
+.progress-wrap { max-width: 900px; margin: 0 auto; padding: 24px 24px 0; }
+.progress-bar { display: flex; gap: 6px; }
+.progress-step { flex: 1; height: 6px; border-radius: 3px; background: var(--border); transition: background 0.4s ease; }
+.progress-step.done { background: var(--teal); }
+.progress-step.active { background: var(--gold); }
+.step-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+.step-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.step-label.active { color: var(--navy); font-weight: 700; }
+
+/* CONTAINER */
+.container { max-width: 900px; margin: 0 auto; padding: 24px; }
+
+/* CARD */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 20px; }
+.card-sm { padding: 20px; }
+
+/* PAGE */
+.page { display: none; animation: slideIn 0.35s ease; }
+.page.active { display: block; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* TYPOGRAPHY */
+.page-title { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+.page-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+
+/* FORM */
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.form-hint { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.form-input { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; transition: border-color 0.2s; background: white; }
+.form-input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+.form-input::placeholder { color: #94a3b8; }
+textarea.form-input { resize: vertical; min-height: 80px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* CHIPS */
+.chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: white; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; user-select: none; }
+.chip:hover { border-color: var(--teal); background: var(--teal-50); }
+.chip.selected { background: var(--teal); color: white; border-color: var(--teal); }
+.chip.selected:hover { background: #0f766e; }
+
+/* STRENGTHS SELECTOR */
+.strength-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.strength-chip { padding: 10px; border-radius: 10px; border: 1.5px solid var(--border); background: white; text-align: center; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+.strength-chip:hover { border-color: var(--teal); transform: translateY(-1px); }
+.strength-chip.selected { border-color: var(--teal); background: var(--teal-light); }
+.strength-chip .s-name { font-size: 12px; font-weight: 700; color: var(--navy); }
+.strength-chip .s-domain { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.strength-count { font-size: 12px; color: var(--teal); font-weight: 700; margin-top: 8px; }
+
+/* TIME GRID */
+.time-grid { display: grid; grid-template-columns: 100px repeat(5, 1fr); gap: 2px; font-size: 11px; }
+.time-header { background: var(--navy); color: white; padding: 8px; text-align: center; font-weight: 700; border-radius: 4px; }
+.time-label { background: #f1f5f9; padding: 8px; font-weight: 600; display: flex; align-items: center; border-radius: 4px; }
+.time-cell { background: white; border: 1px solid var(--border); padding: 8px; text-align: center; cursor: pointer; border-radius: 4px; transition: all 0.15s; user-select: none; }
+.time-cell:hover { background: var(--teal-50); border-color: var(--teal); }
+.time-cell.available { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 700; }
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end; }
+.btn { padding: 12px 28px; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: none; }
+.btn-primary { background: var(--teal); color: white; }
+.btn-primary:hover { background: #0f766e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
+.btn-secondary { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--navy); color: var(--navy); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* PRIVACY NOTICE */
+.privacy { background: var(--teal-50); border: 1px solid #99f6e4; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; }
+.privacy-title { font-size: 12px; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+.privacy-text { font-size: 11px; color: #115e59; line-height: 1.6; }
+
+/* PROFILE PREVIEW */
+.preview-section { margin-bottom: 20px; }
+.preview-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.preview-value { font-size: 15px; font-weight: 600; color: var(--navy); }
+.preview-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.preview-chip { font-size: 11px; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+.preview-chip.str { background: var(--teal-light); color: var(--teal); }
+.preview-chip.int { background: var(--blue-light); color: var(--blue); }
+.preview-chip.val { background: var(--gold-light); color: var(--gold); }
+
+/* MATCH PREVIEW */
+.match-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 16px; }
+.match-score-ring { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: white; flex-shrink: 0; }
+.match-score-ring.high { background: linear-gradient(135deg, #16a34a, #22c55e); }
+.match-score-ring.med { background: linear-gradient(135deg, #ca8a04, #eab308); }
+.match-info { flex: 1; }
+.match-employer { font-weight: 700; font-size: 14px; color: var(--navy); }
+.match-role { font-size: 12px; color: var(--muted); }
+.match-reason { font-size: 11px; color: #166534; background: var(--green-light); border-radius: 6px; padding: 8px 10px; margin-top: 6px; line-height: 1.5; }
+
+/* SUCCESS */
+.success-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 20px; }
+.success-title { font-family: 'Fraunces', serif; font-size: 28px; text-align: center; color: var(--navy); margin-bottom: 8px; }
+.success-subtitle { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .strength-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .time-grid { grid-template-columns: 80px repeat(5, 1fr); font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">Mocs <span>Career Match</span></div>
+    <div class="header-badge">Decosimo Success Center • Rollins College of Business</div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar">
+    <div class="progress-step done" id="ps1"></div>
+    <div class="progress-step done" id="ps2"></div>
+    <div class="progress-step done" id="ps3"></div>
+    <div class="progress-step done" id="ps4"></div>
+    <div class="progress-step done" id="ps5"></div>
+    <div class="progress-step active" id="ps6"></div>
+  </div>
+  <div class="step-labels">
+    <span class="step-label" id="sl1">Identity</span>
+    <span class="step-label" id="sl2">Strengths</span>
+    <span class="step-label" id="sl3">Passions</span>
+    <span class="step-label" id="sl4">Availability</span>
+    <span class="step-label" id="sl5">Review</span>
+    <span class="step-label active" id="sl6">Matches</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- STEP 1: IDENTITY (MOCS ID ONLY) -->
+<!-- ============================================================ -->
+<div class="page" id="step1">
+  <div class="card">
+    <div class="page-title">Let's start with you</div>
+    <div class="page-subtitle">Your profile is identified by your MOCS ID only — your name is never stored in the matching system. This keeps the matching process focused on who you are, not who people assume you to be.</div>
+
+    <div class="privacy">
+      <div class="privacy-title">🔒 Privacy by Design</div>
+      <div class="privacy-text">This platform stores your MOCS ID as your identifier. Your name never enters the matching database. Employers see your strengths profile and fit score — not your name, gender, age, or photo — until you choose to reveal yourself. This removes unconscious bias from the matching process.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">MOCS ID *</label>
+      <div class="form-hint">Your UTC student identifier (e.g., M01234567)</div>
+      <input type="text" class="form-input" id="mocsId" placeholder="M01234567" maxlength="10">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">College / Major *</label>
+        <select class="form-input" id="major">
+          <option value="">Select your major...</option>
+          <option value="Accounting">Accounting</option>
+          <option value="Business Administration">Business Administration</option>
+          <option value="Economics">Economics</option>
+          <option value="Entrepreneurship">Entrepreneurship</option>
+          <option value="Finance">Finance</option>
+          <option value="Human Resource Management">Human Resource Management</option>
+          <option value="Information Systems">Information Systems</option>
+          <option value="Management">Management</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Supply Chain Management">Supply Chain Management</option>
+          <option value="Other">Other (specify below)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Year *</label>
+        <select class="form-input" id="year">
+          <option value="">Select year...</option>
+          <option value="Freshman">Freshman</option>
+          <option value="Sophomore">Sophomore</option>
+          <option value="Junior">Junior</option>
+          <option value="Senior">Senior</option>
+          <option value="Graduate">Graduate</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">LinkedIn Profile URL</label>
+      <div class="form-hint">Optional — helps employers learn more if you choose to share your profile later</div>
+      <input type="url" class="form-input" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="nextStep(2)">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- STEP 2: CLIFTONSTRENGTHS -->
+<!-- ============================================================ -->
+<div class="page" id="step2">
+  <div class="card">
+    <div class="page-title">Your CliftonStrengths</div>
+    <div class="page-subtitle">Select your Top 5 strengths. If you haven't taken CliftonStrengths yet, select the 5 that feel most natural to you — we'll refine later. These drive your match scoring.</div>
+
+    <div class="strength-count" id="strengthCount">5 of 5 selected</div>
+    <div class="strength-grid" id="strengthGrid">
+    <div class="strength-chip" data-name="Achiever" onclick="toggleStrength(&#39;Achiever&#39;, this)">
+      <div class="s-name">Achiever</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Arranger" onclick="toggleStrength(&#39;Arranger&#39;, this)">
+      <div class="s-name">Arranger</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Belief" onclick="toggleStrength(&#39;Belief&#39;, this)">
+      <div class="s-name">Belief</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Consistency" onclick="toggleStrength(&#39;Consistency&#39;, this)">
+      <div class="s-name">Consistency</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Deliberative" onclick="toggleStrength(&#39;Deliberative&#39;, this)">
+      <div class="s-name">Deliberative</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Discipline" onclick="toggleStrength(&#39;Discipline&#39;, this)">
+      <div class="s-name">Discipline</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Focus" onclick="toggleStrength(&#39;Focus&#39;, this)">
+      <div class="s-name">Focus</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Responsibility" onclick="toggleStrength(&#39;Responsibility&#39;, this)">
+      <div class="s-name">Responsibility</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Restorative" onclick="toggleStrength(&#39;Restorative&#39;, this)">
+      <div class="s-name">Restorative</div>
+      <div class="s-domain">Executing</div>
+    </div>
+    <div class="strength-chip" data-name="Analytical" onclick="toggleStrength(&#39;Analytical&#39;, this)">
+      <div class="s-name">Analytical</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Context" onclick="toggleStrength(&#39;Context&#39;, this)">
+      <div class="s-name">Context</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Futuristic" onclick="toggleStrength(&#39;Futuristic&#39;, this)">
+      <div class="s-name">Futuristic</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Ideation" onclick="toggleStrength(&#39;Ideation&#39;, this)">
+      <div class="s-name">Ideation</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Input" onclick="toggleStrength(&#39;Input&#39;, this)">
+      <div class="s-name">Input</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Intellection" onclick="toggleStrength(&#39;Intellection&#39;, this)">
+      <div class="s-name">Intellection</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Learner" onclick="toggleStrength(&#39;Learner&#39;, this)">
+      <div class="s-name">Learner</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Strategic" onclick="toggleStrength(&#39;Strategic&#39;, this)">
+      <div class="s-name">Strategic</div>
+      <div class="s-domain">Strategic Thinking</div>
+    </div>
+    <div class="strength-chip" data-name="Activator" onclick="toggleStrength(&#39;Activator&#39;, this)">
+      <div class="s-name">Activator</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Command" onclick="toggleStrength(&#39;Command&#39;, this)">
+      <div class="s-name">Command</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Communication" onclick="toggleStrength(&#39;Communication&#39;, this)">
+      <div class="s-name">Communication</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Competition" onclick="toggleStrength(&#39;Competition&#39;, this)">
+      <div class="s-name">Competition</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Maximizer" onclick="toggleStrength(&#39;Maximizer&#39;, this)">
+      <div class="s-name">Maximizer</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip selected" data-name="Self-Assurance" onclick="toggleStrength(&#39;Self-Assurance&#39;, this)">
+      <div class="s-name">Self-Assurance</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Significance" onclick="toggleStrength(&#39;Significance&#39;, this)">
+      <div class="s-name">Significance</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Woo" onclick="toggleStrength(&#39;Woo&#39;, this)">
+      <div class="s-name">Woo</div>
+      <div class="s-domain">Influencing</div>
+    </div>
+    <div class="strength-chip" data-name="Adaptability" onclick="toggleStrength(&#39;Adaptability&#39;, this)">
+      <div class="s-name">Adaptability</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip selected" data-name="Connectedness" onclick="toggleStrength(&#39;Connectedness&#39;, this)">
+      <div class="s-name">Connectedness</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip" data-name="Developer" onclick="toggleStrength(&#39;Developer&#39;, this)">
+      <div class="s-name">Developer</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip" data-name="Empathy" onclick="toggleStrength(&#39;Empathy&#39;, this)">
+      <div class="s-name">Empathy</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip selected" data-name="Harmony" onclick="toggleStrength(&#39;Harmony&#39;, this)">
+      <div class="s-name">Harmony</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip selected" data-name="Includer" onclick="toggleStrength(&#39;Includer&#39;, this)">
+      <div class="s-name">Includer</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip selected" data-name="Individualization" onclick="toggleStrength(&#39;Individualization&#39;, this)">
+      <div class="s-name">Individualization</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip" data-name="Positivity" onclick="toggleStrength(&#39;Positivity&#39;, this)">
+      <div class="s-name">Positivity</div>
+      <div class="s-domain">Relationship</div>
+    </div>
+    <div class="strength-chip" data-name="Relator" onclick="toggleStrength(&#39;Relator&#39;, this)">
+      <div class="s-name">Relator</div>
+      <div class="s-domain">Relationship</div>
+    </div></div>
+
+    <div class="form-group" style="margin-top: 20px;">
+      <label class="form-label">Haven't taken CliftonStrengths?</label>
+      <div class="form-hint">No problem — contact the Success Center to schedule your assessment. For now, select the 5 descriptions that resonate most.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextStep(1)">← Back</button>
+      <button class="btn btn-primary" id="strengthNext" onclick="nextStep(3)">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- STEP 3: PASSIONS & INTERESTS -->
+<!-- ============================================================ -->
+<div class="page" id="step3">
+  <div class="card">
+    <div class="page-title">What drives you?</div>
+    <div class="page-subtitle">Select all that apply — then add anything we missed. The more honest you are here, the better your matches will be. There are no wrong answers.</div>
+
+    <div class="form-group">
+      <label class="form-label">Passions &amp; Interests (select all that apply)</label>
+      <div class="chip-grid" id="interestChips">
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Data &amp; Analytics&#39;, this)">Data &amp; Analytics</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Creative Design&#39;, this)">Creative Design</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Leadership&#39;, this)">Leadership</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Social Impact&#39;, this)">Social Impact</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Technology&#39;, this)">Technology</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Healthcare&#39;, this)">Healthcare</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Finance &amp; Investing&#39;, this)">Finance &amp; Investing</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Entrepreneurship&#39;, this)">Entrepreneurship</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Education&#39;, this)">Education</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Marketing&#39;, this)">Marketing</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Sustainability&#39;, this)">Sustainability</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Community Service&#39;, this)">Community Service</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Writing &amp; Communication&#39;, this)">Writing &amp; Communication</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Engineering&#39;, this)">Engineering</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Research&#39;, this)">Research</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Music &amp; Arts&#39;, this)">Music &amp; Arts</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Sports &amp; Fitness&#39;, this)">Sports &amp; Fitness</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Mental Health &amp; Wellness&#39;, this)">Mental Health &amp; Wellness</div>
+    <div class="chip selected" onclick="toggleChip(&#39;interestChips&#39;, &#39;Public Policy&#39;, this)">Public Policy</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Nonprofit Work&#39;, this)">Nonprofit Work</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;Real Estate&#39;, this)">Real Estate</div>
+    <div class="chip" onclick="toggleChip(&#39;interestChips&#39;, &#39;International Business&#39;, this)">International Business</div></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What else are you passionate about?</label>
+      <div class="form-hint">Free text — anything that didn't fit above</div>
+      <textarea class="form-input" id="otherPassions" placeholder="E.g., I love building things from scratch, I care about accessibility in tech, I&#39;m obsessed with supply chain optimization..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What kind of work environment do you thrive in?</label>
+      <div class="chip-grid" id="envChips">
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Fast-paced startup&#39;, this)">Fast-paced startup</div>
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Structured corporate&#39;, this)">Structured corporate</div>
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Remote &amp; flexible&#39;, this)">Remote &amp; flexible</div>
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Collaborative team&#39;, this)">Collaborative team</div>
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Independent work&#39;, this)">Independent work</div>
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Mission-driven nonprofit&#39;, this)">Mission-driven nonprofit</div>
+    <div class="chip selected" onclick="toggleChip(&#39;envChips&#39;, &#39;Creative agency&#39;, this)">Creative agency</div>
+    <div class="chip" onclick="toggleChip(&#39;envChips&#39;, &#39;Research-focused&#39;, this)">Research-focused</div></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">What values matter most to you in a workplace?</label>
+      <div class="chip-grid" id="valueChips">
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Innovation&#39;, this)">Innovation</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Integrity&#39;, this)">Integrity</div>
+    <div class="chip selected" onclick="toggleChip(&#39;valueChips&#39;, &#39;Work-life balance&#39;, this)">Work-life balance</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Growth &amp; learning&#39;, this)">Growth &amp; learning</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Diversity &amp; inclusion&#39;, this)">Diversity &amp; inclusion</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Autonomy&#39;, this)">Autonomy</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Stability&#39;, this)">Stability</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Mentorship&#39;, this)">Mentorship</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Impact&#39;, this)">Impact</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Creativity&#39;, this)">Creativity</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Teamwork&#39;, this)">Teamwork</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Challenge&#39;, this)">Challenge</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Compensation&#39;, this)">Compensation</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Purpose&#39;, this)">Purpose</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Flexibility&#39;, this)">Flexibility</div>
+    <div class="chip" onclick="toggleChip(&#39;valueChips&#39;, &#39;Recognition&#39;, this)">Recognition</div></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextStep(2)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(4)">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- STEP 4: AVAILABILITY -->
+<!-- ============================================================ -->
+<div class="page" id="step4">
+  <div class="card">
+    <div class="page-title">When are you available?</div>
+    <div class="page-subtitle">Click the cells where you're available for internship, co-op, or part-time work. This helps us match you to opportunities that fit your schedule, not just your skills.</div>
+
+    <div class="form-row" style="margin-bottom: 20px;">
+      <div class="form-group">
+        <label class="form-label">What are you looking for? *</label>
+        <div class="chip-grid" id="typeChips">
+    <div class="chip" onclick="toggleChip(&#39;typeChips&#39;, &#39;Internship&#39;, this)">Internship</div>
+    <div class="chip" onclick="toggleChip(&#39;typeChips&#39;, &#39;Co-op&#39;, this)">Co-op</div>
+    <div class="chip" onclick="toggleChip(&#39;typeChips&#39;, &#39;Part-time job&#39;, this)">Part-time job</div>
+    <div class="chip" onclick="toggleChip(&#39;typeChips&#39;, &#39;Full-time (post-grad)&#39;, this)">Full-time (post-grad)</div>
+    <div class="chip selected" onclick="toggleChip(&#39;typeChips&#39;, &#39;Volunteer/Service&#39;, this)">Volunteer/Service</div></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Hours per week available *</label>
+        <select class="form-input" id="hours">
+          <option value="">Select...</option>
+          <option value="10-15">10-15 hours (part-time)</option>
+          <option value="15-20">15-20 hours</option>
+          <option value="20-30">20-30 hours</option>
+          <option value="30-40">30-40 hours (full internship)</option>
+          <option value="40+">40+ hours (full-time, summer)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Weekly Availability (click to toggle)</label>
+      <div class="form-hint">Green = available</div>
+      <div class="time-grid" id="timeGrid"><div class="time-header"></div><div class="time-header">Mon</div><div class="time-header">Tue</div><div class="time-header">Wed</div><div class="time-header">Thu</div><div class="time-header">Fri</div><div class="time-label">8am-10am</div><div class="time-cell" data-key="Monday-8am-10am" onclick="toggleTime(&#39;Monday-8am-10am&#39;, this)">—</div><div class="time-cell" data-key="Tuesday-8am-10am" onclick="toggleTime(&#39;Tuesday-8am-10am&#39;, this)">—</div><div class="time-cell" data-key="Wednesday-8am-10am" onclick="toggleTime(&#39;Wednesday-8am-10am&#39;, this)">—</div><div class="time-cell" data-key="Thursday-8am-10am" onclick="toggleTime(&#39;Thursday-8am-10am&#39;, this)">—</div><div class="time-cell" data-key="Friday-8am-10am" onclick="toggleTime(&#39;Friday-8am-10am&#39;, this)">—</div><div class="time-label">10am-12pm</div><div class="time-cell" data-key="Monday-10am-12pm" onclick="toggleTime(&#39;Monday-10am-12pm&#39;, this)">—</div><div class="time-cell" data-key="Tuesday-10am-12pm" onclick="toggleTime(&#39;Tuesday-10am-12pm&#39;, this)">—</div><div class="time-cell" data-key="Wednesday-10am-12pm" onclick="toggleTime(&#39;Wednesday-10am-12pm&#39;, this)">—</div><div class="time-cell" data-key="Thursday-10am-12pm" onclick="toggleTime(&#39;Thursday-10am-12pm&#39;, this)">—</div><div class="time-cell" data-key="Friday-10am-12pm" onclick="toggleTime(&#39;Friday-10am-12pm&#39;, this)">—</div><div class="time-label">12pm-2pm</div><div class="time-cell" data-key="Monday-12pm-2pm" onclick="toggleTime(&#39;Monday-12pm-2pm&#39;, this)">—</div><div class="time-cell" data-key="Tuesday-12pm-2pm" onclick="toggleTime(&#39;Tuesday-12pm-2pm&#39;, this)">—</div><div class="time-cell" data-key="Wednesday-12pm-2pm" onclick="toggleTime(&#39;Wednesday-12pm-2pm&#39;, this)">—</div><div class="time-cell" data-key="Thursday-12pm-2pm" onclick="toggleTime(&#39;Thursday-12pm-2pm&#39;, this)">—</div><div class="time-cell" data-key="Friday-12pm-2pm" onclick="toggleTime(&#39;Friday-12pm-2pm&#39;, this)">—</div><div class="time-label">2pm-4pm</div><div class="time-cell" data-key="Monday-2pm-4pm" onclick="toggleTime(&#39;Monday-2pm-4pm&#39;, this)">—</div><div class="time-cell" data-key="Tuesday-2pm-4pm" onclick="toggleTime(&#39;Tuesday-2pm-4pm&#39;, this)">—</div><div class="time-cell" data-key="Wednesday-2pm-4pm" onclick="toggleTime(&#39;Wednesday-2pm-4pm&#39;, this)">—</div><div class="time-cell" data-key="Thursday-2pm-4pm" onclick="toggleTime(&#39;Thursday-2pm-4pm&#39;, this)">—</div><div class="time-cell" data-key="Friday-2pm-4pm" onclick="toggleTime(&#39;Friday-2pm-4pm&#39;, this)">—</div><div class="time-label">4pm-6pm</div><div class="time-cell" data-key="Monday-4pm-6pm" onclick="toggleTime(&#39;Monday-4pm-6pm&#39;, this)">—</div><div class="time-cell" data-key="Tuesday-4pm-6pm" onclick="toggleTime(&#39;Tuesday-4pm-6pm&#39;, this)">—</div><div class="time-cell" data-key="Wednesday-4pm-6pm" onclick="toggleTime(&#39;Wednesday-4pm-6pm&#39;, this)">—</div><div class="time-cell" data-key="Thursday-4pm-6pm" onclick="toggleTime(&#39;Thursday-4pm-6pm&#39;, this)">—</div><div class="time-cell" data-key="Friday-4pm-6pm" onclick="toggleTime(&#39;Friday-4pm-6pm&#39;, this)">—</div><div class="time-label">Evening</div><div class="time-cell" data-key="Monday-Evening" onclick="toggleTime(&#39;Monday-Evening&#39;, this)">—</div><div class="time-cell" data-key="Tuesday-Evening" onclick="toggleTime(&#39;Tuesday-Evening&#39;, this)">—</div><div class="time-cell" data-key="Wednesday-Evening" onclick="toggleTime(&#39;Wednesday-Evening&#39;, this)">—</div><div class="time-cell" data-key="Thursday-Evening" onclick="toggleTime(&#39;Thursday-Evening&#39;, this)">—</div><div class="time-cell" data-key="Friday-Evening" onclick="toggleTime(&#39;Friday-Evening&#39;, this)">—</div></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Start date preference</label>
+      <div class="form-row">
+        <select class="form-input" id="startDate">
+          <option value="Immediately">Immediately</option>
+          <option value="Summer 2026" selected="">Summer 2026</option>
+          <option value="Fall 2026">Fall 2026</option>
+          <option value="Spring 2027">Spring 2027</option>
+          <option value="Flexible">Flexible</option>
+        </select>
+        <select class="form-input" id="location">
+          <option value="Chattanooga">Chattanooga area</option>
+          <option value="Remote">Remote only</option>
+          <option value="Hybrid">Hybrid preferred</option>
+          <option value="Willing to relocate">Willing to relocate</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextStep(3)">← Back</button>
+      <button class="btn btn-primary" onclick="buildPreview(); nextStep(5)">Review My Profile →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- STEP 5: REVIEW -->
+<!-- ============================================================ -->
+<div class="page" id="step5">
+  <div class="card">
+    <div class="page-title">Review Your Profile</div>
+    <div class="page-subtitle">This is what the matching engine will use. Your MOCS ID is the only identifier — employers see your strengths and fit score, not your name.</div>
+
+    <div class="privacy" style="margin-bottom: 20px;">
+      <div class="privacy-title">👁️ What Employers See</div>
+      <div class="privacy-text">Employers see: your strengths, values, communication environment preferences, availability, and a fit score with a written explanation of why you match. They do NOT see: your name, photo, gender, age, or MOCS ID. You choose when to reveal your identity — only after you review the opportunity and decide to connect.</div>
+    </div>
+
+    <div id="profilePreview">
+    <div class="preview-section">
+      <div class="preview-label">MOCS ID</div>
+      <div class="preview-value">qxb843</div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Academic Profile</div>
+      <div class="preview-value">Supply Chain Management — Junior</div>
+    </div>
+    
+    <div class="preview-section">
+      <div class="preview-label">Top 5 CliftonStrengths</div>
+      <div class="preview-chips"><span class="preview-chip str">Harmony</span><span class="preview-chip str">Includer</span><span class="preview-chip str">Individualization</span><span class="preview-chip str">Connectedness</span><span class="preview-chip str">Self-Assurance</span></div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Passions &amp; Interests</div>
+      <div class="preview-chips"><span class="preview-chip int">Public Policy</span></div>
+      
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Work Environment Preference</div>
+      <div class="preview-chips"><span class="preview-chip val">Creative agency</span></div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Workplace Values</div>
+      <div class="preview-chips"><span class="preview-chip val">Work-life balance</span></div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Looking For</div>
+      <div class="preview-chips"><span class="preview-chip int">Volunteer/Service</span></div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Availability</div>
+      <div class="preview-value">10-15 hrs/wk — 0 time slots marked — Start: Summer 2026 — Location: Chattanooga</div>
+    </div>
+  </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextStep(4)">← Edit</button>
+      <button class="btn btn-primary" onclick="submitProfile()">Submit &amp; See My Matches →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- STEP 6: MATCHES -->
+<!-- ============================================================ -->
+<div class="page active" id="step6">
+  <div class="card" style="text-align: center; padding: 40px;">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Profile Submitted</div>
+    <div class="success-subtitle">Your strengths-based profile is now in the matching engine. Here are your top opportunities ranked by behavioral fit.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title" style="font-family: &#39;Fraunces&#39;, serif; color: var(--navy);">Your Top Matches</div>
+        <div style="font-size: 12px; color: var(--muted);">Ranked by fit score — based on strengths, values, and environment alignment</div>
+      </div>
+    </div>
+    <div id="matchResults">
+    <div class="match-card">
+      <div class="match-score-ring high">94%</div>
+      <div class="match-info">
+        <div class="match-employer">Lamp Post Group</div>
+        <div class="match-role">Innovation Lab Intern — Technology</div>
+        <div class="match-reason">Your Ideation and Strategic strengths align with their startup-incubator culture. Your interest in entrepreneurship and preference for fast-paced environments matches their team dynamics. High values alignment on innovation and autonomy.</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-score-ring high">91%</div>
+      <div class="match-info">
+        <div class="match-employer">BlueCross BlueShield TN</div>
+        <div class="match-role">Data Analytics Co-op — Healthcare</div>
+        <div class="match-reason">Your Analytical and Learner strengths fit their evidence-based decision culture. Healthcare interest plus data passion creates a strong functional match. Values alignment on impact and growth.</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-score-ring high">88%</div>
+      <div class="match-info">
+        <div class="match-employer">Unum Group</div>
+        <div class="match-role">Financial Planning Intern — Finance</div>
+        <div class="match-reason">Your Discipline and Responsibility strengths match their compliance-driven environment. Finance interest and structured corporate preference align. Strong values match on integrity and stability.</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-score-ring high">85%</div>
+      <div class="match-info">
+        <div class="match-employer">EPB Fiber Optics</div>
+        <div class="match-role">Community Engagement Intern — Technology</div>
+        <div class="match-reason">Your Communication and Empathy strengths fit their community-facing mission. Social impact interest plus collaborative team preference. Values alignment on impact and purpose.</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-score-ring med">82%</div>
+      <div class="match-info">
+        <div class="match-employer">Siskin Hospital</div>
+        <div class="match-role">Therapy Services Coordinator — Healthcare</div>
+        <div class="match-reason">Your Includer and Developer strengths align with their patient-centered care model. Healthcare and mental health interests create strong mission alignment. Values match on mentorship and purpose.</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div>
+    <div class="match-card">
+      <div class="match-score-ring med">79%</div>
+      <div class="match-info">
+        <div class="match-employer">Hamilton County Schools</div>
+        <div class="match-role">Education Programs Assistant — Education</div>
+        <div class="match-reason">Your Arranger and Individualization strengths fit their student-services mission. Education interest and service orientation align. Values match on impact and diversity.</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="card card-sm" style="background: var(--teal-50); border-color: #99f6e4;">
+    <div style="font-size: 13px; color: #115e59; line-height: 1.6;">
+      <strong>What happens next:</strong> Review your matches. If an opportunity interests you, click "Express Interest" and the Success Center will facilitate an introduction. The employer will see your strengths profile and fit score — but not your name — until you both opt in to connect. You are always in control of when your identity is shared.
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const STRENGTHS = [
+  { name: 'Achiever', domain: 'Executing' }, { name: 'Arranger', domain: 'Executing' },
+  { name: 'Belief', domain: 'Executing' }, { name: 'Consistency', domain: 'Executing' },
+  { name: 'Deliberative', domain: 'Executing' }, { name: 'Discipline', domain: 'Executing' },
+  { name: 'Focus', domain: 'Executing' }, { name: 'Responsibility', domain: 'Executing' },
+  { name: 'Restorative', domain: 'Executing' },
+  { name: 'Analytical', domain: 'Strategic Thinking' }, { name: 'Context', domain: 'Strategic Thinking' },
+  { name: 'Futuristic', domain: 'Strategic Thinking' }, { name: 'Ideation', domain: 'Strategic Thinking' },
+  { name: 'Input', domain: 'Strategic Thinking' }, { name: 'Intellection', domain: 'Strategic Thinking' },
+  { name: 'Learner', domain: 'Strategic Thinking' }, { name: 'Strategic', domain: 'Strategic Thinking' },
+  { name: 'Activator', domain: 'Influencing' }, { name: 'Command', domain: 'Influencing' },
+  { name: 'Communication', domain: 'Influencing' }, { name: 'Competition', domain: 'Influencing' },
+  { name: 'Maximizer', domain: 'Influencing' }, { name: 'Self-Assurance', domain: 'Influencing' },
+  { name: 'Significance', domain: 'Influencing' }, { name: 'Woo', domain: 'Influencing' },
+  { name: 'Adaptability', domain: 'Relationship' }, { name: 'Connectedness', domain: 'Relationship' },
+  { name: 'Developer', domain: 'Relationship' }, { name: 'Empathy', domain: 'Relationship' },
+  { name: 'Harmony', domain: 'Relationship' }, { name: 'Includer', domain: 'Relationship' },
+  { name: 'Individualization', domain: 'Relationship' }, { name: 'Positivity', domain: 'Relationship' },
+  { name: 'Relator', domain: 'Relationship' },
+];
+
+const INTERESTS = [
+  'Data & Analytics', 'Creative Design', 'Leadership', 'Social Impact', 'Technology',
+  'Healthcare', 'Finance & Investing', 'Entrepreneurship', 'Education', 'Marketing',
+  'Sustainability', 'Community Service', 'Writing & Communication', 'Engineering',
+  'Research', 'Music & Arts', 'Sports & Fitness', 'Mental Health & Wellness',
+  'Public Policy', 'Nonprofit Work', 'Real Estate', 'International Business',
+];
+
+const ENVIRONMENTS = [
+  'Fast-paced startup', 'Structured corporate', 'Remote & flexible', 'Collaborative team',
+  'Independent work', 'Mission-driven nonprofit', 'Creative agency', 'Research-focused',
+];
+
+const VALUES = [
+  'Innovation', 'Integrity', 'Work-life balance', 'Growth & learning', 'Diversity & inclusion',
+  'Autonomy', 'Stability', 'Mentorship', 'Impact', 'Creativity', 'Teamwork', 'Challenge',
+  'Compensation', 'Purpose', 'Flexibility', 'Recognition',
+];
+
+const TYPES = ['Internship', 'Co-op', 'Part-time job', 'Full-time (post-grad)', 'Volunteer/Service'];
+
+const MATCH_EMPLOYERS = [
+  { name: 'Lamp Post Group', role: 'Innovation Lab Intern', industry: 'Technology', score: 94,
+    reason: 'Your Ideation and Strategic strengths align with their startup-incubator culture. Your interest in entrepreneurship and preference for fast-paced environments matches their team dynamics. High values alignment on innovation and autonomy.' },
+  { name: 'BlueCross BlueShield TN', role: 'Data Analytics Co-op', industry: 'Healthcare', score: 91,
+    reason: 'Your Analytical and Learner strengths fit their evidence-based decision culture. Healthcare interest plus data passion creates a strong functional match. Values alignment on impact and growth.' },
+  { name: 'Unum Group', role: 'Financial Planning Intern', industry: 'Finance', score: 88,
+    reason: 'Your Discipline and Responsibility strengths match their compliance-driven environment. Finance interest and structured corporate preference align. Strong values match on integrity and stability.' },
+  { name: 'EPB Fiber Optics', role: 'Community Engagement Intern', industry: 'Technology', score: 85,
+    reason: 'Your Communication and Empathy strengths fit their community-facing mission. Social impact interest plus collaborative team preference. Values alignment on impact and purpose.' },
+  { name: 'Siskin Hospital', role: 'Therapy Services Coordinator', industry: 'Healthcare', score: 82,
+    reason: 'Your Includer and Developer strengths align with their patient-centered care model. Healthcare and mental health interests create strong mission alignment. Values match on mentorship and purpose.' },
+  { name: 'Hamilton County Schools', role: 'Education Programs Assistant', industry: 'Education', score: 79,
+    reason: 'Your Arranger and Individualization strengths fit their student-services mission. Education interest and service orientation align. Values match on impact and diversity.' },
+];
+
+// STATE
+let selectedStrengths = [];
+let selectedInterests = [];
+let selectedEnvs = [];
+let selectedValues = [];
+let selectedTypes = [];
+let timeSlots = {};
+
+// ============================================================
+// RENDERING
+// ============================================================
+
+function renderStrengths() {
+  const grid = document.getElementById('strengthGrid');
+  grid.innerHTML = STRENGTHS.map(s => `
+    <div class="strength-chip" data-name="${s.name}" onclick="toggleStrength('${s.name}', this)">
+      <div class="s-name">${s.name}</div>
+      <div class="s-domain">${s.domain}</div>
+    </div>`).join('');
+}
+
+function toggleStrength(name, el) {
+  if (selectedStrengths.includes(name)) {
+    selectedStrengths = selectedStrengths.filter(s => s !== name);
+    el.classList.remove('selected');
+  } else if (selectedStrengths.length < 5) {
+    selectedStrengths.push(name);
+    el.classList.add('selected');
+  }
+  document.getElementById('strengthCount').textContent = `${selectedStrengths.length} of 5 selected`;
+  document.getElementById('strengthNext').disabled = selectedStrengths.length !== 5;
+}
+
+function renderChips(containerId, items, stateArray) {
+  document.getElementById(containerId).innerHTML = items.map(item => `
+    <div class="chip" onclick="toggleChip('${containerId}', '${item}', this)">${item}</div>`).join('');
+}
+
+function toggleChip(containerId, item, el) {
+  const arrays = { interestChips: selectedInterests, envChips: selectedEnvs, valueChips: selectedValues, typeChips: selectedTypes };
+  const arr = arrays[containerId];
+  if (arr.includes(item)) {
+    arr.splice(arr.indexOf(item), 1);
+    el.classList.remove('selected');
+  } else {
+    arr.push(item);
+    el.classList.add('selected');
+  }
+}
+
+function renderTimeGrid() {
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const times = ['8am-10am', '10am-12pm', '12pm-2pm', '2pm-4pm', '4pm-6pm', 'Evening'];
+  const grid = document.getElementById('timeGrid');
+  grid.innerHTML = '<div class="time-header"></div>' + days.map(d => `<div class="time-header">${d.substring(0,3)}</div>`).join('');
+  times.forEach(t => {
+    grid.innerHTML += `<div class="time-label">${t}</div>`;
+    days.forEach(d => {
+      const key = `${d}-${t}`;
+      grid.innerHTML += `<div class="time-cell" data-key="${key}" onclick="toggleTime('${key}', this)">—</div>`;
+    });
+  });
+}
+
+function toggleTime(key, el) {
+  if (timeSlots[key]) {
+    delete timeSlots[key];
+    el.classList.remove('available');
+    el.textContent = '—';
+  } else {
+    timeSlots[key] = true;
+    el.classList.add('available');
+    el.textContent = '✓';
+  }
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+let currentStep = 1;
+
+function nextStep(step) {
+  // Validation
+  if (step === 2 && currentStep === 1) {
+    if (!document.getElementById('mocsId').value || !document.getElementById('major').value || !document.getElementById('year').value) {
+      alert('Please fill in your MOCS ID, major, and year to continue.');
+      return;
+    }
+  }
+
+  document.getElementById(`step${currentStep}`).classList.remove('active');
+  document.getElementById(`step${step}`).classList.add('active');
+
+  for (let i = 1; i <= 6; i++) {
+    const ps = document.getElementById(`ps${i}`);
+    const sl = document.getElementById(`sl${i}`);
+    ps.classList.remove('done', 'active');
+    sl.classList.remove('active');
+    if (i < step) ps.classList.add('done');
+    if (i === step) { ps.classList.add('active'); sl.classList.add('active'); }
+  }
+
+  currentStep = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// PROFILE PREVIEW
+// ============================================================
+function buildPreview() {
+  const preview = document.getElementById('profilePreview');
+  const availCount = Object.keys(timeSlots).length;
+  const hours = document.getElementById('hours').value;
+  const start = document.getElementById('startDate').value;
+  const loc = document.getElementById('location').value;
+
+  preview.innerHTML = `
+    <div class="preview-section">
+      <div class="preview-label">MOCS ID</div>
+      <div class="preview-value">${document.getElementById('mocsId').value}</div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Academic Profile</div>
+      <div class="preview-value">${document.getElementById('major').value} — ${document.getElementById('year').value}</div>
+    </div>
+    ${document.getElementById('linkedin').value ? `<div class="preview-section"><div class="preview-label">LinkedIn</div><div class="preview-value" style="font-size: 13px;">${document.getElementById('linkedin').value}</div></div>` : ''}
+    <div class="preview-section">
+      <div class="preview-label">Top 5 CliftonStrengths</div>
+      <div class="preview-chips">${selectedStrengths.map(s => `<span class="preview-chip str">${s}</span>`).join('')}</div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Passions & Interests</div>
+      <div class="preview-chips">${selectedInterests.map(s => `<span class="preview-chip int">${s}</span>`).join('')}</div>
+      ${document.getElementById('otherPassions').value ? `<div style="font-size: 12px; color: var(--muted); margin-top: 6px;">"${document.getElementById('otherPassions').value}"</div>` : ''}
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Work Environment Preference</div>
+      <div class="preview-chips">${selectedEnvs.map(s => `<span class="preview-chip val">${s}</span>`).join('')}</div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Workplace Values</div>
+      <div class="preview-chips">${selectedValues.map(s => `<span class="preview-chip val">${s}</span>`).join('')}</div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Looking For</div>
+      <div class="preview-chips">${selectedTypes.map(s => `<span class="preview-chip int">${s}</span>`).join('')}</div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-label">Availability</div>
+      <div class="preview-value">${hours || 'Not specified'} hrs/wk — ${availCount} time slots marked — Start: ${start} — Location: ${loc}</div>
+    </div>
+  `;
+}
+
+// ============================================================
+// SUBMIT & MATCH
+// ============================================================
+function submitProfile() {
+  // Generate matches (in production this would hit a backend)
+  const results = document.getElementById('matchResults');
+  results.innerHTML = MATCH_EMPLOYERS.map((m, i) => `
+    <div class="match-card">
+      <div class="match-score-ring ${m.score >= 85 ? 'high' : 'med'}">${m.score}%</div>
+      <div class="match-info">
+        <div class="match-employer">${m.name}</div>
+        <div class="match-role">${m.role} — ${m.industry}</div>
+        <div class="match-reason">${m.reason}</div>
+        <div style="margin-top: 8px;">
+          <button class="btn btn-primary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px;">Express Interest →</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; border-radius: 6px; margin-left: 6px;">Save for Later</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  nextStep(6);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderStrengths();
+renderChips('interestChips', INTERESTS, selectedInterests);
+renderChips('envChips', ENVIRONMENTS, selectedEnvs);
+renderChips('valueChips', VALUES, selectedValues);
+renderChips('typeChips', TYPES, selectedTypes);
+renderTimeGrid();
+</script>
+
+
+</body></html>
